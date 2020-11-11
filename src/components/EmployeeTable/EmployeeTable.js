@@ -4,33 +4,44 @@ import "./EmployeeTable.css";
 import getUsers from "../../utils/Api";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 90,
-  },
+  { field: "id", headerName: "ID", width: 50 },
+  { field: "firstName", headerName: "First name", width: 150 },
+  { field: "lastName", headerName: "Last name", width: 150 },
+  { field: "location", headerName: "Location", width: 150 },
+  { field: "email", headerName: "E-mail", width: 300 },
+  { field: "cell", headerName: "Cell Phone Number", width: 200 },
 ];
-
-let rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-];
-
-getUsers();
 
 export default function EmployeeTable() {
+  const [data, setData] = useState();
+
   useEffect(() => {
-    rows = [];
-  });
-  return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid rows={rows} columns={columns} />
-    </div>
+    getUsers().then((res) => {
+      const rawData = res.data.results;
+      console.log(rawData);
+      const finalData = [];
+      let ctr = 0;
+      rawData.forEach((person) => {
+        ctr++;
+        const { name, email, cell, location } = person;
+        finalData.push({
+          id: ctr,
+          firstName: name.first,
+          lastName: name.last,
+          location: location.city,
+          email,
+          cell,
+        });
+      });
+      setData(finalData);
+    });
+  }, []);
+
+  return data ? (
+      <div class="container" >
+        <DataGrid rows={data} columns={columns} />
+      </div>
+  ) : (
+    <div>Loading...</div>
   );
 }

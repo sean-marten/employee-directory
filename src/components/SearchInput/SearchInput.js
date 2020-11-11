@@ -4,7 +4,7 @@ import "./SearchInput.css";
 export default function SearchInput() {
   return (
     <div className="searchInput">
-      <TextField placeholder="Search" />
+      <TextField placeholder="Filter" label="Filter" variant="outlined"/>
     </div>
   );
 }
