@@ -1,7 +1,12 @@
 .container {
-  height: 800px;
+  height: 700px;
   width: 70%;
   padding-top: 50px;
   margin: 0 auto;
   position: relative;
+}
+
+.searchInput {
+  text-align: center;
+  margin-top: 20px;
 }

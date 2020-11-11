@@ -1,17 +1,22 @@
+import { useState, useEffect } from "react";
 import Navbar from "./components/NavBar/Navbar";
-import SearchInput from "./components/SearchInput/SearchInput";
 import EmployeeTable from "./components/EmployeeTable/EmployeeTable";
 import Toolbar from "@material-ui/core/Toolbar";
 
-function App() {
+export default function App() {
+
+  const [filter, setFilter] = useState();
+
+  useEffect(() => {
+    
+  }, [])
+
+
   return (
     <div>
       <Navbar />
       <Toolbar />
-      <SearchInput />
       <EmployeeTable />
     </div>
   );
 }
-
-export default App;

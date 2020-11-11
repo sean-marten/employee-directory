@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { DataGrid } from "@material-ui/data-grid";
+import TextField from "@material-ui/core/TextField";
 import "./EmployeeTable.css";
 import getUsers from "../../utils/Api";
 
@@ -12,13 +13,16 @@ const columns = [
   { field: "cell", headerName: "Cell Phone Number", width: 200 },
 ];
 
+
+
 export default function EmployeeTable() {
   const [data, setData] = useState();
+  const [filteredData, setFilteredData] = useState();
+  const [filter, setFilter] = useState();
 
   useEffect(() => {
     getUsers().then((res) => {
       const rawData = res.data.results;
-      console.log(rawData);
       const finalData = [];
       let ctr = 0;
       rawData.forEach((person) => {
@@ -34,13 +38,34 @@ export default function EmployeeTable() {
         });
       });
       setData(finalData);
+      setFilteredData(finalData);
     });
   }, []);
 
+  useEffect(() => {
+    if (!data){
+      return
+    }
+    const filteredData = data.filter(person => {
+      return person.firstName.toLowerCase().includes(filter);
+    })
+    setFilteredData(filteredData);
+  }, [filter])
+
+  const handleFilterChange = event => {
+    const value = event.target.value;
+    setFilter(value);
+  }
+
   return data ? (
-      <div class="container" >
-        <DataGrid rows={data} columns={columns} />
+    <div>
+      <div className="searchInput">
+        <TextField onChange={handleFilterChange} placeholder="Search by First Name" label="Search by First Name" variant="outlined" />
       </div>
+      <div className="container">
+        <DataGrid rows={filteredData} columns={columns} />
+      </div>atata
+    </div>
   ) : (
     <div>Loading...</div>
   );
