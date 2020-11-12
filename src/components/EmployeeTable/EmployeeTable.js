@@ -13,12 +13,10 @@ const columns = [
   { field: "cell", headerName: "Cell Phone Number", width: 200 },
 ];
 
-
-
 export default function EmployeeTable() {
-  const [data, setData] = useState();
-  const [filteredData, setFilteredData] = useState();
-  const [filter, setFilter] = useState();
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     getUsers().then((res) => {
@@ -37,6 +35,7 @@ export default function EmployeeTable() {
           cell,
         });
       });
+      console.log(finalData, setData, finalData);
       setData(finalData);
       setFilteredData(finalData);
     });
